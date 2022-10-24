@@ -13,8 +13,21 @@ function App(){
       })
     }
 
+    const handleTeamClick = () => {  axios({
+      method: 'GET',
+      url: '/api/team'
+    }).then((response) => {
+      console.log('get response: ', response.data)
+    }).catch((error) => {
+      console.log('client side get error', error)
+    })
+  }
+
     return(
-        <button onClick={handleClick}>Test</button>
+      <>
+        <button onClick={handleClick}>Test Player</button>
+        <button onClick={handleTeamClick}>Test Team</button>
+      </>
     )
 }
 
