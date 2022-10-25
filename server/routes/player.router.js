@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const axios = require('axios');
+const fs = require("fs")
 
 const playerSeason = 20182019
 const playerId = 8476792
@@ -49,6 +50,35 @@ router.get('/', (req, res) =>{
             hits: season.hits,
             points: season.points
         }
+
+        // (A) DATA ARRAY
+        // var data = [
+        //     ["Alpha", "Beta"],
+        //     ["Charlie", "Delta"],
+        //     ["Echo", "Foxtrot"]
+        // ];
+  
+  // (B) WRITE TO FILE
+        // const fs = require("fs");
+        // const stream = fs.createWriteStream("demoC.csv");
+        // for (let i of data) { stream.write(i.join(",") + "\r\n"); }
+        // stream.end();
+        // console.log("Done!");
+
+
+        const fs = require('fs')
+const header = ['playerId', 'playerName', 'currentTeam', 'playerAge', 'playerNumber', 'playerPosition', 'isRookie', 'assists', 'goals', 'games', 'hits', 'points'];
+
+const dataArrays = [
+[playerId, player.fullName, player.currentTeam.name, player.currentAge, player.primaryNumber, player.primaryPosition.name, player.rookie, season.assists, season.goals, season.games, season.hits, season.points],
+];
+
+const val = [header].concat(dataArrays).map(arr => arr.join(',')).join('\r\n');
+
+fs.writeFile(`${playerId + playerSeason}.csv`, val, err => {
+  if(err) console.error(err);
+  else console.log('Ok');
+})
 
 
         res.send(playerObject)
