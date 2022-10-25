@@ -23,33 +23,41 @@ const teamId = 1
 
 //create store point for data
 const dataStore = {}
-//create variables from needed API endpoints
-const teamAPI = `https://statsapi.web.nhl.com/api/v1/teams/${teamId}?expand=team.stats`
-const seasonAPI = `https://statsapi.web.nhl.com/api/v1/teams/${teamId}/stats?expand=team.roster&season=${teamSeason}`
-const firstGameAPI = `https://statsapi.web.nhl.com/api/v1/schedule/?teamId=${teamId}&season=${teamSeason}&gameType=R`
 
-//put API endpoints into an array
-const apiResources = [teamAPI, seasonAPI, firstGameAPI]
 
-//async function to get API data and write to data object
-async function getResource(resource) {
-    const { data } = await axios({
-        method: 'GET',
-        url: resource})
-    dataStore[resource] = data
-}
-
-//using an async function to map over all API variables with the previous resources function
-//Requests can be made concurrently and then progress is blocked until all Promises are fulfilled 
-async function getAllResources() {
-    const apiPromises = apiResources.map(getResource)
-    await Promise.all(apiPromises)
-}
 
 //Server side endpoint of client GET
 //Makes API get requests and once all are complete uses responses to assemble a data object
-router.get('/', (req, res) =>{
+router.get('/:teamId/:teamSeason', (req, res) =>{
 
+    //Capture params passed from client
+    const teamId = req.params.teamId
+    const teamSeason = req.params.teamSeason
+
+    //create variables from needed API endpoints
+    const teamAPI = `https://statsapi.web.nhl.com/api/v1/teams/${teamId}?expand=team.stats`
+    const seasonAPI = `https://statsapi.web.nhl.com/api/v1/teams/${teamId}/stats?expand=team.roster&season=${teamSeason}`
+    const firstGameAPI = `https://statsapi.web.nhl.com/api/v1/schedule/?teamId=${teamId}&season=${teamSeason}&gameType=R`
+
+    //put API endpoints into an array
+    const apiResources = [teamAPI, seasonAPI, firstGameAPI]
+
+    //async function to get API data and write to data object
+    async function getResource(resource) {
+        const { data } = await axios({
+            method: 'GET',
+            url: resource})
+        dataStore[resource] = data
+    }
+
+    //using an async function to map over all API variables with the previous resources function
+    //Requests can be made concurrently and then progress is blocked until all Promises are fulfilled 
+    async function getAllResources() {
+        const apiPromises = apiResources.map(getResource)
+        await Promise.all(apiPromises)
+        }
+
+        //call async functions then parse the results of the completed promises
     getAllResources().then(promiseRes =>{
         const compositeData = dataStore
         // console.log('composite data = ', compositeData)

@@ -1,13 +1,8 @@
-import axios from 'axios'
 import PlayerInput from './inputs/PlayerInput'
 import TeamInput from './inputs/TeamInput'
 
 
 function App(){
-
-
-
-
 
     return(
       <>
