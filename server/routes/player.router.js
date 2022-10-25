@@ -3,30 +3,40 @@ const router = express.Router()
 const axios = require('axios');
 const fs = require("fs")
 
-const playerSeason = 20182019
-const playerId = 8476792
+// const playerSeason = 20182019
+// const playerId = 8476792
 
 //GET Player Route
 
 const dataStore = {}
-const playerAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
-const seasonAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}/stats?stats=statsSingleSeason&season=${playerSeason}`
 
-const apiResources = [playerAPI, seasonAPI]
 
-async function getResource(resource) {
-    const { data } = await axios({
-        method: 'GET',
-        url: resource})
-    dataStore[resource] = data
-}
 
-async function getAllResources() {
-    const apiPromises = apiResources.map(getResource)
-    await Promise.all(apiPromises)
-}
 
-router.get('/', (req, res) =>{
+
+
+
+router.get('/:playerId/:playerSeason', (req, res) =>{
+    const playerId = req.params.playerId
+    const playerSeason = req.params.playerSeason
+    const playerAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
+    const seasonAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}/stats?stats=statsSingleSeason&season=${playerSeason}`
+    const apiResources = [playerAPI, seasonAPI]
+
+    async function getResource(resource) {
+        const { data } = await axios({
+            method: 'GET',
+            url: resource})
+        dataStore[resource] = data
+    }
+
+    async function getAllResources() {
+        const apiPromises = apiResources.map(getResource)
+        await Promise.all(apiPromises)
+    }
+
+    console.log('playerId:', playerId)
+    console.log('playerSeason', playerSeason)
 
     getAllResources().then(promiseRes =>{
         const compositeData = dataStore

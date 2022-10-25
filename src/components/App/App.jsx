@@ -1,24 +1,13 @@
-import axios from 'axios'
+import PlayerInput from './inputs/PlayerInput'
+import TeamInput from './inputs/TeamInput'
 
 
 function App(){
 
-
-
-    const handleTeamClick = () => {  axios({
-      method: 'GET',
-      url: '/api/team'
-    }).then((response) => {
-      console.log('get response: ', response.data)
-    }).catch((error) => {
-      console.log('client side get error', error)
-    })
-  }
-
     return(
       <>
-
-        <button onClick={handleTeamClick}>Test Team</button>
+      <PlayerInput />
+      <TeamInput />
       </>
     )
 }
