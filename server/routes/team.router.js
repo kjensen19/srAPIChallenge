@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const axios = require('axios');
+const fs = require('fs')
+
 
 
 
@@ -78,6 +80,19 @@ router.get('/', (req, res) =>{
 
 
         }
+        const teamHeader = ['teamId', 'teamName', 'teamSeason', 'teamVenue', 'teamGames', 'teamWins', 'teamLosses', 'teamPoints', 'teamGoalsPerGame', 'teamFirstGame', 'teamFirstOpponent'];
+
+        const teamArrays = [
+            [teamId, team.name, teamSeason, team.venue.name, season.gamesPlayed, season.wins, season.losses, season.pts, season.goalsPerGame, firstGame.gameDate, awayTeam === team.name ? homeTeam : awayTeam],
+            ];
+
+        const val = [teamHeader].concat(teamArrays).map(arr => arr.join(',')).join('\r\n');
+
+        fs.writeFile(`${teamId + teamSeason}.csv`, val, err => {
+        if(err) console.error(err);
+        else console.log('Ok');
+        })
+        
 
         console.log('pre-send teamObject', teamObject)
         res.send(teamObject)

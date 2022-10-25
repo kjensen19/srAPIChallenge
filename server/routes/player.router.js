@@ -66,7 +66,6 @@ router.get('/', (req, res) =>{
         // console.log("Done!");
 
 
-        const fs = require('fs')
 const header = ['playerId', 'playerName', 'currentTeam', 'playerAge', 'playerNumber', 'playerPosition', 'isRookie', 'assists', 'goals', 'games', 'hits', 'points'];
 
 const dataArrays = [
