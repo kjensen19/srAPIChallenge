@@ -1,11 +1,42 @@
 html {
     box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     display: flex;
+    flex-flow:column;
+    align-content: center;
+    justify-content: center;
+
+
+}
+
+
+.inputBox{
+    position: relative;
+    display: flex;
+    flex-flow:column;
+    align-content: center;
+    justify-content: center;
+
+
+}
+
+
+.inputContainer {
+    position: relative;
     align-items: center;
     justify-content: center;
+    display: flex;
+    flex-flow: column;
 }
 
-#inputContainer {
-    width: 100%;
-
+form{
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 100vw;   
 }
+
+
+

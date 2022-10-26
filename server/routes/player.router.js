@@ -7,6 +7,7 @@ const fs = require("fs")
 //GET Player Route
 //data storage while looping through async api access
 const dataStore = {}
+var newFile = ''
 
 
 
@@ -14,6 +15,7 @@ const dataStore = {}
 
 router.get('/:playerId/:playerSeason', (req, res) =>{
     //extract player id and season from get request
+    try{
     const playerId = req.params.playerId
     const playerSeason = req.params.playerSeason
 
@@ -60,29 +62,37 @@ router.get('/:playerId/:playerSeason', (req, res) =>{
             hits: season.hits,
             points: season.points
         }
-
-//Header values for CSV file
-const header = ['playerId', 'playerName', 'currentTeam', 'playerAge', 'playerNumber', 'playerPosition', 'isRookie', 'assists', 'goals', 'games', 'hits', 'points'];
-//DATA to build CSV
-const dataArrays = [
-[playerId, player.fullName, player.currentTeam.name, player.currentAge, player.primaryNumber, player.primaryPosition.name, player.rookie, season.assists, season.goals, season.games, season.hits, season.points],
-];
-//Maps data and headers to csv format
-const val = [header].concat(dataArrays).map(arr => arr.join(',')).join('\r\n');
-//creates .csv file
-fs.writeFile(`${playerId + playerSeason}.csv`, val, err => {
-  if(err) console.error(err);
-  else console.log('Ok');
-})
+        
+    //Header values for CSV file
+    const header = ['playerId', 'playerName', 'currentTeam', 'playerAge', 'playerNumber', 'playerPosition', 'isRookie', 'assists', 'goals', 'games', 'hits', 'points'];
+    //DATA to build CSV
+    const dataArrays = [
+    [playerId, player.fullName, player.currentTeam.name, player.currentAge, player.primaryNumber, player.primaryPosition.name, player.rookie, season.assists, season.goals, season.games, season.hits, season.points],
+    ];
+    //Maps data and headers to csv format
+    const val = [header].concat(dataArrays).map(arr => arr.join(',')).join('\r\n');
+    //creates .csv file
+    newFile = `${playerId + playerSeason}.csv`
+    fs.writeFile(`public/${newFile}`, val, err => {
+    if(err) console.error(err);
+    else res.send(newFile);
+    })
         //Sends download information as the response to the GET call
-        res.download(`/Users/kylejensen/sportRadar/public/${playerId + playerSeason}.csv`, `${playerId + playerSeason}.csv`)
-
 
     })
+    // 
+
+
+    }
+    catch(error){
+        console.log('player GET error', error)
+        res.sendStatus(500)
+    }
     
     
 
     
+
     })
 
 module.exports = router

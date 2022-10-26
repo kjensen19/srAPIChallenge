@@ -8,7 +8,7 @@ The basic challenge was to access a collection of API endpoints to extract playe
 
 The majority of the unit testing was done via Postman, and console logging (and manual testing). Obviously in an appplication of this size that was manageable but it is not a scalable approach. If I was to continue working on this app I would want to incorporate more rigorous testing with something like Jest, which I have not used but have been reading up on.
 
-In terms of future features, obviously further input validation would be towards the top of my list. While controlling the year input is a step towards controlling some sources of user errors, I would want to add a check to the team options that disables teams who were not active in that season. A similar piece of logic with players/seasons would be another large step in the right direction. I would also like to expand the inputs/APIs queried to build more robust data as well as providing the option to write multiple records to CSV before downloading on the client side.
+In terms of future features, obviously further input validation would be towards the top of my list. While controlling the year input is a step towards controlling some sources of user errors, I would want to add a check to the team options that disables teams who were not active in that season. A similar piece of logic with players/seasons would be another large step in the right direction. Also on the client side I would love to revfactor the season list to generate recursively since it ends up being (year)(year+1), (year+1)(year+1+1) etc. I would also like to expand the inputs/APIs queried to build more robust data as well as providing the option to write multiple records to CSV before downloading on the client side.
 
 
 ### Prerequisites

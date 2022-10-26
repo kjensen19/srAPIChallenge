@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios'
 
-export default function TeamInput() {
+export default function TeamInput({ setInfo }) {
   //local state for params needed for get request
     const [teamId, setTeamId] = useState('')
     const [teamSeason, setTeamSeason] = useState('')
@@ -25,8 +25,9 @@ export default function TeamInput() {
         setTeamId('')
         setTeamSeason('')
         console.log('get response: ', response.data)
+        setInfo(response.data)
       }).catch((error) => {
-        console.log('client side get error', error)
+        console.log('Get team error', error)
       })
     }
     //Select season change handler
@@ -206,7 +207,7 @@ export default function TeamInput() {
           <MenuItem value={20222023}>2022-2023 Season</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="contained" onClick={handleTeamClick}>Team Info</Button>
+      <Button variant="contained" onClick={handleTeamClick} >Team Info</Button>
 
 
       </Box>

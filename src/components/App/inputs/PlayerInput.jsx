@@ -10,7 +10,9 @@ import { useState } from 'react'
 import axios from 'axios'
 
 
-export default function PlayerInput() {
+export default function PlayerInput({ setInfo }) {
+ 
+
   //local state for id and season values to be sent as params on the get request
     const [playerId, setPlayerId] = useState('')
     const [playerSeason, setPlayerSeason] = useState('')
@@ -25,9 +27,10 @@ export default function PlayerInput() {
         //On success clear inputs
         setPlayerId('')
         setPlayerSeason('')
-        console.log('get response: ', response.data)
+        console.log('get response: ', response)
+        setInfo(response.data)
       }).catch((error) => {
-        console.log('client side get error', error)
+        console.log('Get player error', error)
       })
     }
     //change handler for select dropdown
@@ -162,6 +165,7 @@ export default function PlayerInput() {
         </Select>
       </FormControl>
       <Button variant="contained" onClick={handlePlayerClick}>Player Info</Button>
+      
 
 
       </Box>

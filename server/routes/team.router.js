@@ -17,19 +17,18 @@ const fs = require('fs')
 // Goals Per Game
 // Game Date of First Game of Season
 // Opponent Name in First Game of Season
-// const teamSeason = 20182019
-// const teamId = 1
+
 
 
 //create store point for data(promises for async below)
 const dataStore = {}
-
+var newTeam
 
 
 //Server side endpoint of team GET
 //Makes API get requests and once all are complete uses responses to assemble write a csv file which is then provided as a download
 router.get('/:teamId/:teamSeason', (req, res) =>{
-
+    try{
     //Capture params passed from client
     const teamId = req.params.teamId
     const teamSeason = req.params.teamSeason
@@ -97,17 +96,22 @@ router.get('/:teamId/:teamSeason', (req, res) =>{
         //maps header and data to Comma Seperated Values
         const val = [teamHeader].concat(teamArrays).map(arr => arr.join(',')).join('\r\n');
             //Actually writes the values to a CSV file
-        fs.writeFile(`${teamId + teamSeason}.csv`, val, err => {
+        newTeam = `${teamId + teamSeason}.csv`
+        fs.writeFile(`public/${newTeam}`, val, err => {
         if(err) console.error(err);
-        else console.log('Ok');
+        else res.send(newTeam);
         })
         
 
         console.log('pre-send teamObject', teamObject)
         //Provides the file as a download on return
-        res.download(`/Users/kylejensen/sportRadar/public/${teamId + teamSeason}.csv`, `${playerId + playerSeason}.csv`)
 
     })
+    }catch(error){
+        console.log('Error in team GET', error)
+        res.sendStatus(500)
+
+    }
 
     })
 
