@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react'
 import InputLabel from '@mui/material/InputLabel';
@@ -25,6 +24,7 @@ export default function TeamInput({ setInfo }) {
         setTeamId('')
         setTeamSeason('')
         console.log('get response: ', response.data)
+        //set state (in App) to render button to download CSV file
         setInfo(response.data)
       }).catch((error) => {
         console.log('Get team error', error)
