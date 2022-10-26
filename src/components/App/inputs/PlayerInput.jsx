@@ -28,6 +28,7 @@ export default function PlayerInput({ setInfo }) {
         setPlayerId('')
         setPlayerSeason('')
         console.log('get response: ', response)
+        //set state (in App) to render button to download CSV file
         setInfo(response.data)
       }).catch((error) => {
         console.log('Get player error', error)
