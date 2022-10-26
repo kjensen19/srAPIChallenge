@@ -1,6 +1,7 @@
 import PlayerInput from './inputs/PlayerInput'
 import TeamInput from './inputs/TeamInput'
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import './App.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -26,7 +27,7 @@ function App(){
             <PlayerInput setInfo={setInfo}/>
             <TeamInput  setInfo={setInfo}/>
           </Paper>
-          {info && <a href={info} download onClick={() => setInfo('')}>Download CSV</a>}
+          {info && <a href={info} download><Button variant="contained" onClick={() => setInfo('')}>Download CSV</Button></a>}
         </Paper>
       </ThemeProvider>
 

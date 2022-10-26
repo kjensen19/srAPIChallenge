@@ -59,7 +59,7 @@ router.get('/:teamId/:teamSeason', (req, res) =>{
         //call async functions then parse the results of the completed promises
     getAllResources().then(promiseRes =>{
         const compositeData = dataStore
-        onsole.log('composite data = ', compositeData)
+        console.log('composite data = ', compositeData)
         const team = compositeData[teamAPI].teams[0]
         const season = compositeData[seasonAPI].stats[0].splits[0].stat
         const firstGame = compositeData[firstGameAPI].dates[0].games[0]
