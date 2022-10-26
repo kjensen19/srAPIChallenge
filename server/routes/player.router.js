@@ -3,33 +3,33 @@ const router = express.Router()
 const axios = require('axios');
 const fs = require("fs")
 
-// const playerSeason = 20182019
-// const playerId = 8476792
 
 //GET Player Route
-
+//data storage while looping through async api access
 const dataStore = {}
 
 
 
 
 
-
-
 router.get('/:playerId/:playerSeason', (req, res) =>{
+    //extract player id and season from get request
     const playerId = req.params.playerId
     const playerSeason = req.params.playerSeason
+
+    //variables for the API endpoints that need to be called, with the params from above added in
     const playerAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
     const seasonAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}/stats?stats=statsSingleSeason&season=${playerSeason}`
     const apiResources = [playerAPI, seasonAPI]
 
+    //async function to access each API endpoint and await data
     async function getResource(resource) {
         const { data } = await axios({
             method: 'GET',
             url: resource})
         dataStore[resource] = data
     }
-
+    //maps through API array, creates an array of promises that when fulfilled supply the needed information
     async function getAllResources() {
         const apiPromises = apiResources.map(getResource)
         await Promise.all(apiPromises)
@@ -37,7 +37,7 @@ router.get('/:playerId/:playerSeason', (req, res) =>{
 
     console.log('playerId:', playerId)
     console.log('playerSeason', playerSeason)
-
+    //function call for async chain, then partially sorts data to make accessing it cleaner
     getAllResources().then(promiseRes =>{
         const compositeData = dataStore
         console.log('composite data = ', compositeData)
@@ -61,36 +61,22 @@ router.get('/:playerId/:playerSeason', (req, res) =>{
             points: season.points
         }
 
-        // (A) DATA ARRAY
-        // var data = [
-        //     ["Alpha", "Beta"],
-        //     ["Charlie", "Delta"],
-        //     ["Echo", "Foxtrot"]
-        // ];
-  
-  // (B) WRITE TO FILE
-        // const fs = require("fs");
-        // const stream = fs.createWriteStream("demoC.csv");
-        // for (let i of data) { stream.write(i.join(",") + "\r\n"); }
-        // stream.end();
-        // console.log("Done!");
-
-
+//Header values for CSV file
 const header = ['playerId', 'playerName', 'currentTeam', 'playerAge', 'playerNumber', 'playerPosition', 'isRookie', 'assists', 'goals', 'games', 'hits', 'points'];
-
+//DATA to build CSV
 const dataArrays = [
 [playerId, player.fullName, player.currentTeam.name, player.currentAge, player.primaryNumber, player.primaryPosition.name, player.rookie, season.assists, season.goals, season.games, season.hits, season.points],
 ];
-
+//Maps data and headers to csv format
 const val = [header].concat(dataArrays).map(arr => arr.join(',')).join('\r\n');
-
+//creates .csv file
 fs.writeFile(`${playerId + playerSeason}.csv`, val, err => {
   if(err) console.error(err);
   else console.log('Ok');
 })
+        //Sends download information as the response to the GET call
+        res.download(`/Users/kylejensen/sportRadar/public/${playerId + playerSeason}.csv`, `${playerId + playerSeason}.csv`)
 
-
-        res.send(playerObject)
 
     })
     

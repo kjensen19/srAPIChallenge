@@ -1,8 +1,12 @@
+
+//require and intialize Express
 const express = require('express');
+const app = express();
+//for processing JSON
 const bodyParser = require('body-parser');
 
-const app = express();
 
+//constants for router files
 const playerRouter = require('./routes/player.router')
 const teamRouter = require('./routes/team.router')
 
@@ -10,7 +14,7 @@ const teamRouter = require('./routes/team.router')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+//listens for axios requests
 app.use('/api/player', playerRouter)
 app.use('/api/team', teamRouter)
 
