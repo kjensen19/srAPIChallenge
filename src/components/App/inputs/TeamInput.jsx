@@ -10,9 +10,10 @@ import Select from '@mui/material/Select';
 import axios from 'axios'
 
 export default function TeamInput() {
+  //local state for params needed for get request
     const [teamId, setTeamId] = useState('')
     const [teamSeason, setTeamSeason] = useState('')
-
+  //click handler to grab team id and team season and send an Axios GET request
     const handleTeamClick = () => {  
         console.log('Team Id in submit', teamId)
         console.log('Team Season in submit', teamSeason)
@@ -20,6 +21,7 @@ export default function TeamInput() {
             method: 'GET',
             url: `/api/team/${teamId}/${teamSeason}`
       }).then((response) => {
+        //on Success clear input fields/values
         setTeamId('')
         setTeamSeason('')
         console.log('get response: ', response.data)
@@ -27,11 +29,11 @@ export default function TeamInput() {
         console.log('client side get error', error)
       })
     }
-
+    //Select season change handler
     function handleSeasonChange(event){
       setTeamSeason(event.target.value)
     }
-
+    //Select Team change handler
     function handleTeamChange(event){
       setTeamId(event.target.value)
     }
@@ -210,7 +212,3 @@ export default function TeamInput() {
       </Box>
   );
 }
-
-
-{/* <TextField id="outlined-basic" label="Team Season" variant="outlined" name="teamSeason" value={teamSeason} onChange={() => setTeamSeason(event.target.value)}/> */}
-

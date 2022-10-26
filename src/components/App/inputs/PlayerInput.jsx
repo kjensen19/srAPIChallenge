@@ -11,9 +11,10 @@ import axios from 'axios'
 
 
 export default function PlayerInput() {
+  //local state for id and season values to be sent as params on the get request
     const [playerId, setPlayerId] = useState('')
     const [playerSeason, setPlayerSeason] = useState('')
-
+  //onclick grabs id and season values
     const handlePlayerClick = () => {  
         console.log('Player ID in submit', playerId)
         console.log('Player Season in submit', playerSeason)
@@ -21,7 +22,7 @@ export default function PlayerInput() {
             method: 'GET',
             url: `/api/player/${playerId}/${playerSeason}`
       }).then((response) => {
-        window.open(`http://localhost:3000/${playerId + playerSeason}.csv`, '_blank')
+        //On success clear inputs
         setPlayerId('')
         setPlayerSeason('')
         console.log('get response: ', response.data)
@@ -29,7 +30,7 @@ export default function PlayerInput() {
         console.log('client side get error', error)
       })
     }
-
+    //change handler for select dropdown
     function handleSeasonChange(event){
       setPlayerSeason(event.target.value)
     }
