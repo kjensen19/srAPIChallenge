@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router()
 const axios = require('axios');
 const fs = require("fs")
+const path = require('path')
+// const zip = require('express-zip');
 
 // const playerSeason = 20182019
 // const playerId = 8476792
@@ -9,9 +11,24 @@ const fs = require("fs")
 //GET Player Route
 
 const dataStore = {}
+// const folderPath = __dirname+'/Files';
 
 
+ 
+// The folder path for the files
 
+ 
+// GET request for single file
+// app.get('/single',function(req,res) {
+//     console.log('single file');
+     
+//     // Download function provided by express
+//     res.download(folderPath+'/single_gfg.txt', function(err) {
+//         if(err) {
+//             console.log(err);
+//         }
+//     })
+// })
 
 
 
@@ -19,6 +36,8 @@ const dataStore = {}
 router.get('/:playerId/:playerSeason', (req, res) =>{
     const playerId = req.params.playerId
     const playerSeason = req.params.playerSeason
+
+    
     const playerAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
     const seasonAPI = `https://statsapi.web.nhl.com/api/v1/people/${playerId}/stats?stats=statsSingleSeason&season=${playerSeason}`
     const apiResources = [playerAPI, seasonAPI]
@@ -90,7 +109,10 @@ fs.writeFile(`${playerId + playerSeason}.csv`, val, err => {
 })
 
 
-        res.send(playerObject)
+        // res.send(playerObject)
+        // res.sendFile('./847679220182019.csv', )
+        res.download(`/Users/kylejensen/sportRadar/public/${playerId + playerSeason}.csv`, `${playerId + playerSeason}.csv`)
+
 
     })
     
