@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/player', playerRouter)
 app.use('/api/team', teamRouter)
 
-
+//for what we always have on page
 app.use(express.static('build'));
 
 // App Set //

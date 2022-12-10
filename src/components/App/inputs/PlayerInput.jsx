@@ -29,6 +29,7 @@ export default function PlayerInput({ setInfo }) {
         setPlayerSeason('')
         console.log('get response: ', response)
         //set state (in App) to render button to download CSV file
+        //If we add a backend, we would add a 'download' button here for all requested rows of the CSV
         setInfo(response.data)
       }).catch((error) => {
         console.log('Get player error', error)
@@ -52,11 +53,26 @@ export default function PlayerInput({ setInfo }) {
       <FormControl fullWidth>
         <InputLabel id="season-select-label">Season</InputLabel>
         <Select
-          labelId="season-abel"
+          labelId="season-label"
           id="season-select"
           value={playerSeason}
           label="Season"
           onChange={handleSeasonChange}
+
+          // 
+          
+          // NHL SEASON NAME         SeasonYear
+          // TCVERZ35 =             19171918
+          // BZ95T
+
+        // AB
+        // BC
+        // CD
+
+
+
+
+
         >
           <MenuItem value={19171918}>1917-1918 Season</MenuItem>
           <MenuItem value={19181919}>1918-1919 Season</MenuItem>
